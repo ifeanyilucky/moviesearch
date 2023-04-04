@@ -1,10 +1,22 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: archiaregular !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #000 !important;
+  color: #fff !important;
+}
+
+@font-face {
+  font-family: 'archiaregular';
+  src: url('/public/static/fonts/archia-regular-webfont.eot');
+  src: url('/public/static/fonts/archia-regular-webfont.eot?#iefix')
+      format('embedded-opentype'),
+    url('/public/static/fonts/archia-regular-webfont.woff2') format('woff2'),
+    url('/public/static/fonts/archia-regular-webfont.woff') format('woff'),
+    url('/public/static/fonts/archia-regular-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 code {

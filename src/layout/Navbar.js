@@ -15,25 +15,24 @@ export default function Navbar() {
   return (
     <>
       <Wrapper>
-        <div className='container'>
-          <div className='row justify-content-between align-items-center'>
-            <div className='col-md-2 col-3'>
-              <div className='logo'>
-                <h3>MovieDB</h3>
-              </div>
+        <div className='row justify-content-between align-items-center'>
+          <div className='col-md-2 col-3'>
+            <div className='logo'>
+              <h3>MovieDB</h3>
             </div>
-            <div className='col-md-10 col-9'>
-              <div className='row'>
-                <div className='col-md-8 nav_items'>
-                  <ul>
-                    {categories.map((item) => (
-                      <li key={item} className='small'>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className='col-md-4 col-12'>
+          </div>
+          <div className='col-md-10 col-9'>
+            <div className='row'>
+              <div className='col-md-8 nav_items'>
+                <ul>
+                  {categories.map((item) => (
+                    <li key={item} className='small'>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {/* <div className='col-md-4 col-12'>
                   <div className='search-wrapper'>
                     <span className='search-icon'>
                       <Icon icon='material-symbols:search-rounded' />
@@ -44,8 +43,7 @@ export default function Navbar() {
                       placeholder='search'
                     />
                   </div>
-                </div>
-              </div>
+                </div> */}
             </div>
           </div>
         </div>

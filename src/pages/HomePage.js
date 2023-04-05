@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { fetchPopularMovies, fetchMovieImg } from '../utils/axios';
+import LandingSidebar from '../components/LandingPage/LandingSidebar';
+import Navbar from '../layout/Navbar';
 
 export default function HomePage() {
   const [movies, setMovies] = useState([]);
@@ -27,53 +29,63 @@ export default function HomePage() {
   }, []);
 
   return (
-    <Wrapper>
-      {!movies.results ? (
-        <h2>Is Loading...</h2>
-      ) : (
-        <section className='container mt-5 text-white'>
-          <div
-            className='hero-card'
-            style={{
-              backgroundImage: `linear-gradient(to top, rgba(0, 0, 0 , 1), transparent) , url(${fetchMovieImg(
-                movies?.results[sliderIndex]?.backdrop_path
-              )})`,
-            }}
-          >
-            <h3>{movies?.results[sliderIndex]?.title}</h3>
-          </div>
-          <div className='row my-5'>
-            <div className='col-md-6'>
-              <div className='category-card'>
-                <div className='backdrop'>
-                  <h3>Halloween movies</h3>
-                </div>
+    <Wrapper className='container-fluid'>
+      <div className='row'>
+        <div className='col-md-8'>
+          <Navbar />
+          {!movies.results ? (
+            <h2>Is Loading...</h2>
+          ) : (
+            <section className='container mt-5 text-white'>
+              <div
+                className='hero-card'
+                style={{
+                  backgroundImage: `linear-gradient(to top, rgba(0, 0, 0 , 1), transparent) , url(${fetchMovieImg(
+                    movies?.results[sliderIndex]?.backdrop_path
+                  )})`,
+                }}
+              >
+                <h3>{movies?.results[sliderIndex]?.title}</h3>
               </div>
-            </div>
-            <div className='col-md-6'>
-              <div className='category-card'>
-                <div className='backdrop'>
-                  <h2>New year's movies</h2>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className='row my-5'>
-            {movies.results.map((movie) => (
-              <div className='col-md-3 my-2' key={movie?.id}>
-                <Link to={`/${movie?.id}`}>
-                  <div className='poster-card'>
-                    <div className='poster-img'>
-                      <img src={`${fetchMovieImg(movie.poster_path)}`} />
+              <div className='row my-5'>
+                <div className='col-md-6'>
+                  <div className='category-card'>
+                    <div className='backdrop'>
+                      <h3>Halloween movies</h3>
                     </div>
-                    <h5 className='py-2'>{movie.original_title}</h5>
                   </div>
-                </Link>
+                </div>
+                <div className='col-md-6'>
+                  <div className='category-card'>
+                    <div className='backdrop'>
+                      <h2>New year's movies</h2>
+                    </div>
+                  </div>
+                </div>
               </div>
-            ))}
+              <div className='row my-5'>
+                {movies.results.map((movie) => (
+                  <div className='col-md-3 my-2' key={movie?.id}>
+                    <Link to={`/${movie?.id}`}>
+                      <div className='poster-card'>
+                        <div className='poster-img'>
+                          <img src={`${fetchMovieImg(movie.poster_path)}`} />
+                        </div>
+                        <h5 className='py-2'>{movie.original_title}</h5>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+        <div className='col-md-4' style={{ height: '100%' }}>
+          <div className='position-sticky' style={{ height: '100%' }}>
+            <LandingSidebar movies={movies} />
           </div>
-        </section>
-      )}
+        </div>
+      </div>
     </Wrapper>
   );
 }
@@ -82,7 +94,7 @@ const Wrapper = styled.div`
   .poster-card {
     cursor: pointer;
     .poster-img {
-      height: 350px;
+      height: 260px;
       width: 100%;
       border-radius: 20px;
       overflow: hidden;

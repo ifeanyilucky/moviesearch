@@ -113,6 +113,7 @@ const Wrapper = styled.div`
     height: 500px;
     border-radius: 30px;
     background-size: cover !important;
+    background-position: top center !important;
     padding: 2rem;
     .left-row,
     .right-row {
@@ -132,7 +133,7 @@ const Wrapper = styled.div`
     }
   }
   .play-btn {
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 1);
     border-radius: 50%;
     outline: none;
     border: 0;

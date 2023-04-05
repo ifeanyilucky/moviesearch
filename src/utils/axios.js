@@ -20,3 +20,8 @@ export const getMovieVideo = (movieId) =>
 
 export const fetchMovieImg = (pathName) =>
   `https://image.tmdb.org/t/p/original/${pathName}`;
+
+export const searchMovies = (keyword) =>
+  api.get(
+    `https://api.themoviedb.org/3/search/movie?api_key=${config.apiKey}&language=en-US&page=1&include_adult=false&query=${keyword}`
+  );

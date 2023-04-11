@@ -9,9 +9,8 @@ export default function Routes() {
       path: '/',
       element: (
         <>
-          <div className='mt-3'>
-            <Outlet />
-          </div>
+          <Navbar />
+          <Outlet />
         </>
       ),
       children: [

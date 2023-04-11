@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { fetchMovieImg } from '../../utils/axios';
 import Modal from 'react-modal';
+import { MovieProps } from '../../types';
 
-HeroDetail.propTypes = {
-  movie: PropTypes.object,
-};
-export default function HeroDetail({ movie }) {
+export default function HeroDetail({ movie }: { movie: MovieProps }) {
   const navigate = useNavigate();
-  const [favorite, setFavorite] = useState(false);
-  const [videoOpen, setVideoOpen] = useState(false);
+  const [favorite, setFavorite] = useState<boolean>(false);
+  const [videoOpen, setVideoOpen] = useState<boolean>(false);
 
   const handleFavoriteClick = () => {
     if (favorite === true) {
@@ -37,7 +34,7 @@ export default function HeroDetail({ movie }) {
           src='https://www.youtube-nocookie.com/embed/KH-pw1cv34E'
           title='YouTube video player'
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-          allowfullscreen
+          allowFullScreen
         ></iframe>
       </Modal>
       <div
@@ -71,8 +68,10 @@ export default function HeroDetail({ movie }) {
                 </p>
                 <h6>
                   {movie.release_date} (
-                  {movie?.production_countries?.map((item) => item.iso_3166_1)})
-                  • {Math.floor(movie?.runtime / 60)}h {movie?.runtime % 60}m
+                  {movie?.production_countries?.map(
+                    (item: { iso_3166_1: string }) => item.iso_3166_1
+                  )}
+                  ) • {Math.floor(movie?.runtime / 60)}h {movie?.runtime % 60}m
                 </h6>
               </div>
             </div>

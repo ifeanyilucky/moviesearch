@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
-CircularCharts.propType = {
-  number: PropTypes.number,
-};
-export default function CircularCharts({ number }) {
+export default function CircularCharts({ number }: { number: number }) {
   return (
     <Wrapper>
       <div className='flex-wrapper'>

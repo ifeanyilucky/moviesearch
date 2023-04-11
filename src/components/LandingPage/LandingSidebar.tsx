@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { truncate } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import { fetchMovieImg, searchMovies } from '../../utils/axios';
+import { MovieProps } from '../../types';
 
-export default function LandingSidebar({ movies }) {
-  const [value, setValue] = useState('');
-  const [searchedMovies, setSearchedMovies] = useState([]);
+export default function LandingSidebar() {
+  const [value, setValue] = useState<string>('');
+  const [searchedMovies, setSearchedMovies] = useState<[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(false);
+
   const suggestions = [
     'Crime',
     'documentary',
@@ -17,11 +21,14 @@ export default function LandingSidebar({ movies }) {
   useEffect(() => {
     const startSearch = async () => {
       if (value) {
+        setLoading(true);
         try {
           const { data } = await searchMovies(value);
           setSearchedMovies(data.results);
+          setLoading(false);
         } catch (error) {
           console.log(error);
+          setLoading(false);
         }
       } else {
         setSearchedMovies([]);
@@ -41,7 +48,7 @@ export default function LandingSidebar({ movies }) {
         }}
       />
       <div className='suggestion my-5'>
-        {suggestions.map((item, i) => (
+        {suggestions.map((item: string, i: number) => (
           <Chip
             key={i}
             style={{ margin: '3px 5px' }}
@@ -55,9 +62,13 @@ export default function LandingSidebar({ movies }) {
       </div>
       <div className='suggested-movies my-5'>
         {value && <h4>You searched for "{value}"</h4>}
-        {movies &&
-          searchedMovies?.map((movie) => (
-            <RouterLink to={`/${movie?.id}`} key={movie?.id}>
+        {searchedMovies &&
+          searchedMovies?.map((movie: MovieProps) => (
+            <RouterLink
+              to={`/${movie?.id}`}
+              key={movie?.id}
+              style={{ textDecoration: 'none', color: '#fff' }}
+            >
               <div
                 className='movie-card mt-3'
                 style={{
@@ -65,7 +76,8 @@ export default function LandingSidebar({ movies }) {
                 }}
               >
                 <div className='movie-info'>
-                  <h5>{movie.original_title}</h5>
+                  <h6>{truncate(movie.original_title, { length: 38 })}</h6>
+                  <p className='small'>{movie.release_date}</p>
                 </div>
               </div>
             </RouterLink>
@@ -77,29 +89,40 @@ export default function LandingSidebar({ movies }) {
 
 const Wrapper = styled.div`
   background: #232323;
-  height: 100vh;
+  height: 95vh;
   border-radius: 26px;
   padding: 15px 27px;
   width: 100%;
   overflow: auto;
+  @media (max-width: 768px) {
+    height: 100%;
+    padding: 0;
+    border-radius: 0;
+    padding: 15px;
+  }
   .suggested-movies {
     .movie-card {
       height: 230px;
       width: 100%;
       background-size: cover !important;
       background-position: top center !important;
-      padding: 15px;
+      padding: 0 !important;
       border-radius: 20px;
       display: flex;
       flex-flow: column;
       justify-content: flex-end;
       .movie-info {
-        height: 60px;
+        height: 90px;
         width: 100%;
         background-color: rgba(255, 255, 255, 0.4);
         backdrop-filter: blur(5px);
-        border-radius: 14px;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
         padding: 12px;
+        text-decoration: none !important;
+        display: flex;
+        flex-flow: column;
+        justify-content: flex-end;
       }
     }
   }
@@ -110,6 +133,9 @@ const Wrapper = styled.div`
     width: 100%;
     font-size: 26px;
     color: #fff;
+    @media (max-width: 768px) {
+      margin-top: 3rem !important;
+    }
   }
   .suggestion {
   }

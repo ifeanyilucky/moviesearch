@@ -1,18 +1,18 @@
 // import LandingHero from "../"
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Icon } from '@iconify/react';
+// import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
 import { fetchSingleMovie, fetchMovieImg, getCredits } from '../utils/axios';
-import config from '../config';
+// import config from '../config';
 import HeroDetail from '../components/MovieDetail/HeroDetail';
 import SidebarContent from '../components/MovieDetail/SidebarContent';
-import Navbar from '../layout/Navbar';
+import { CastProps, MovieProps } from '../types';
 
 export default function MovieDetail() {
-  const [movie, setMovie] = useState([]);
+  const [movie, setMovie] = useState<MovieProps | any>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [cast, setCast] = useState([]);
+  const [cast, setCast] = useState<Array<CastProps>>([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function MovieDetail() {
         const castResponse = await getCredits(id);
         console.log(data);
         setMovie(data);
-        setCast(castResponse.data);
+        setCast(castResponse.data?.cast);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -32,6 +32,7 @@ export default function MovieDetail() {
     };
     getMovie();
   }, [id]);
+  console.log(cast);
 
   return (
     <Wrapper>
@@ -39,7 +40,6 @@ export default function MovieDetail() {
         <h2>Loading</h2>
       ) : (
         <>
-          <Navbar />
           <section className='container mt-5 text-white'>
             <div className='row'>
               <div className='col-md-8 col-sm-12 col-xs-12'>
@@ -53,12 +53,12 @@ export default function MovieDetail() {
                 <div className='my-3'>
                   <h3 className='mb-3'>Top cast</h3>
                   <div className='cast-wrapper row'>
-                    {cast?.cast?.slice(0, 4).map((item) => (
+                    {cast?.slice(0, 4).map((item: CastProps) => (
                       <div key={item.id} className='cast col-6'>
                         <div className='cast-img'>
                           <img
                             src={fetchMovieImg(item?.profile_path)}
-                            alt={item.id}
+                            alt={item.name}
                           />
                         </div>
                         <p className='small text-center my-3'>

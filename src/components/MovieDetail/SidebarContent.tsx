@@ -4,8 +4,9 @@ import { Icon } from '@iconify/react';
 import { fetchMovieImg } from '../../utils/axios';
 import { fCurrency } from '../../utils/formatNumber';
 import CircularCharts from '../CircularChart';
+import { MovieProps } from '../../types';
 
-export default function SidebarContent({ movie }) {
+export default function SidebarContent({ movie }: { movie: MovieProps }) {
   const companies = [
     {
       icon: 'entypo-social:youtube-with-circle',
@@ -70,15 +71,18 @@ export default function SidebarContent({ movie }) {
       <div className='compilation my-3'>
         <p>Compilation of genres</p>
         <div className='compilation-wrapper'>
-          {movie?.genres?.slice(0, 3).map((genre) => (
+          {movie?.genres?.slice(0, 3).map((genre: { name: string }) => (
             <div
               key={genre.name}
               style={{
                 backgroundColor:
                   (genre.name === 'Horror' && '#fe0000') ||
-                  (genre.name === 'Adventure' && '#7657ac') ||
-                  (genre.name === 'Comedy' && 'yellow') ||
+                  (genre.name === 'Adventure' && '#441c87') ||
+                  (genre.name === 'Comedy' && '#00684e') ||
                   (genre.name === 'Action' && '#ee462e') ||
+                  (genre.name === 'Mystery' && '#c70663') ||
+                  (genre.name === 'Animation' && '#c78d06') ||
+                  (genre.name === 'Family' && '#d50000') ||
                   '#db01db',
               }}
               className='compilation-item small'

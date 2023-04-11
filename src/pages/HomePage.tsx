@@ -6,11 +6,13 @@ import { Icon } from '@iconify/react';
 import { fetchPopularMovies, fetchMovieImg } from '../utils/axios';
 import LandingSidebar from '../components/LandingPage/LandingSidebar';
 import Navbar from '../layout/Navbar';
+import { MovieProps } from '../types';
+import Image from '../components/Image';
 
 export default function HomePage() {
-  const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [sliderIndex, setSliderIndex] = useState(4);
+  const [movies, setMovies] = useState<Array<MovieProps>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [sliderIndex, setSliderIndex] = useState<number>(4);
 
   useEffect(() => {
     const getMovies = async () => {
@@ -18,7 +20,7 @@ export default function HomePage() {
       try {
         const { data } = await fetchPopularMovies();
         console.log(data);
-        setMovies(data);
+        setMovies(data?.results);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -32,20 +34,19 @@ export default function HomePage() {
     <Wrapper className='container-fluid'>
       <div className='row'>
         <div className='col-md-8'>
-          <Navbar />
-          {!movies.results ? (
+          {!movies ? (
             <h2>Is Loading...</h2>
           ) : (
-            <section className='container mt-5 text-white'>
+            <section className='container position-relative text-white'>
               <div
-                className='hero-card'
+                className='hero-card mt-5'
                 style={{
                   backgroundImage: `linear-gradient(to top, rgba(0, 0, 0 , 1), transparent) , url(${fetchMovieImg(
-                    movies?.results[sliderIndex]?.backdrop_path
+                    movies[sliderIndex]?.backdrop_path
                   )})`,
                 }}
               >
-                <h3>{movies?.results[sliderIndex]?.title}</h3>
+                <h3>{movies[sliderIndex]?.title}</h3>
               </div>
               <div className='row my-5'>
                 <div className='col-md-6'>
@@ -64,14 +65,28 @@ export default function HomePage() {
                 </div>
               </div>
               <div className='row my-5'>
-                {movies.results.map((movie) => (
-                  <div className='col-md-3 my-2' key={movie?.id}>
-                    <Link to={`/${movie?.id}`}>
+                {movies.map((movie: MovieProps) => (
+                  <div
+                    className='col-md-4 col-sm-6 col-xs-6 col-xl-3 my-2'
+                    key={movie?.id}
+                  >
+                    <Link
+                      to={`/${movie?.id}`}
+                      style={{ color: '#fff', textDecoration: 'none' }}
+                    >
                       <div className='poster-card'>
                         <div className='poster-img'>
-                          <img src={`${fetchMovieImg(movie.poster_path)}`} />
+                          <Image
+                            alt={movie.title}
+                            src={`${fetchMovieImg(movie.poster_path)}`}
+                          />
                         </div>
-                        <h5 className='py-2'>{movie.original_title}</h5>
+                        <div className='py-2'>
+                          <h6>{movie.original_title}</h6>
+                          <p className='small'>
+                            {new Date(movie.release_date).getFullYear()}
+                          </p>
+                        </div>
                       </div>
                     </Link>
                   </div>
@@ -80,9 +95,9 @@ export default function HomePage() {
             </section>
           )}
         </div>
-        <div className='col-md-4' style={{ height: '100%' }}>
-          <div className='position-sticky' style={{ height: '100%' }}>
-            <LandingSidebar movies={movies} />
+        <div className='col-md-4 sidebar-wrapper' style={{ height: '100%' }}>
+          <div style={{ height: '100%' }}>
+            <LandingSidebar />
           </div>
         </div>
       </div>
@@ -91,6 +106,14 @@ export default function HomePage() {
 }
 
 const Wrapper = styled.div`
+  .sidebar-wrapper {
+    position: sticky !important;
+    top: 18px;
+    right: 0;
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
   .poster-card {
     cursor: pointer;
     .poster-img {

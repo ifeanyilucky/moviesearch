@@ -40,29 +40,29 @@ export default function HeroDetail({ movie }: { movie: MovieProps }) {
       <div
         className='movie-card'
         style={{
-          background: `linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent), url(${fetchMovieImg(
+          background: `linear-gradient(to top, rgba(0, 0, 0, 0.81), transparent), url(${fetchMovieImg(
             movie?.backdrop_path
           )})`,
         }}
       >
         <div className='row justify-content-between align-items-center'>
-          <div className='col-md-6 col-12'>
+          <div className=''>
             <div className='left-row'>
               <div className='top'>
                 <div className='d-flex align-items-center'>
                   <button className=' blurry-btn' onClick={() => navigate(-1)}>
                     <Icon icon={'ic:baseline-keyboard-arrow-left'} />
                   </button>
-                  <span className='small'>Back</span>
+                  {/* <span className='small'>Back</span> */}
                 </div>
               </div>
               <div className='bottom'>
-                <h2 style={{ fontWeight: 700 }}>
+                <h4 style={{ fontWeight: 700 }}>
                   {movie?.original_title}{' '}
-                  <span className='text-muted'>
+                  <span style={{ color: '#d3d3d3' }}>
                     {new Date(movie?.release_date).getFullYear()}
                   </span>
-                </h2>
+                </h4>
                 <p>
                   <i>{movie?.tagline}</i>
                 </p>
@@ -76,7 +76,7 @@ export default function HeroDetail({ movie }: { movie: MovieProps }) {
               </div>
             </div>
           </div>
-          <div className='col-md-6 position-relative'>
+          <div className='position-relative'>
             <div className='right-row'>
               <div className='top'>
                 <button className='blurry-btn' onClick={handleFavoriteClick}>
@@ -107,24 +107,31 @@ export default function HeroDetail({ movie }: { movie: MovieProps }) {
   );
 }
 const Wrapper = styled.div`
+  .play-btn {
+    position: absolute !important;
+    top: 43%;
+    right: 44%;
+  }
+
+  .bottom,
+  .right-row,
+  .position-relative {
+    position: unset !important;
+  }
   @media (max-width: 768px) {
-    .play-btn {
-      position: absolute !important;
-      top: 43%;
-      right: 44%;
-    }
-    .bottom,
-    .right-row,
-    .position-relative {
-      position: unset !important;
-    }
     .movie-card {
-      position: relative;
       background-color: red !important;
       padding: 1rem !important;
       height: 350px !important;
     }
   }
+  .left-row {
+    .bottom {
+      position: absolute !important;
+      bottom: 15px;
+    }
+  }
+
   margin: 20px 0;
   .movie-card {
     height: 500px;
@@ -132,6 +139,7 @@ const Wrapper = styled.div`
     background-size: cover !important;
     background-position: top center !important;
     padding: 2rem;
+    position: relative;
     .left-row,
     .right-row {
       display: flex;
@@ -168,5 +176,10 @@ const Wrapper = styled.div`
     margin: 5px;
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
+  }
+  .top {
+    position: absolute;
+    top: 15px;
+    right: 15px;
   }
 `;

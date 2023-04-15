@@ -10,7 +10,6 @@ export default function Routes() {
       element: (
         <>
           <Navbar />
-          <Outlet />
         </>
       ),
       children: [

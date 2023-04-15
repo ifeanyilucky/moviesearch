@@ -26,7 +26,7 @@ export default function SidebarContent({ movie }: { movie: MovieProps }) {
     {
       icon: 'logos:netflix-icon',
       title: 'Netflix',
-      bgColor: '#000',
+      bgColor: '#fe0000',
     },
 
     {
@@ -35,7 +35,17 @@ export default function SidebarContent({ movie }: { movie: MovieProps }) {
       bgColor: '#fe0000',
     },
   ];
-
+  const genreColors: string[] = [
+    '#fe0000',
+    '#441c87',
+    '#00684e',
+    '#ee462e',
+    '#c70663',
+    '#c78d06',
+    '#d50000',
+    '#db01db',
+  ];
+  const color: number = Math.floor(Math.random() * genreColors.length);
   return (
     <Wrapper>
       <div className='pt-3'>
@@ -45,9 +55,9 @@ export default function SidebarContent({ movie }: { movie: MovieProps }) {
             <div
               className='company-item'
               key={item.title}
-              style={{ backgroundColor: item.bgColor }}
+              style={{ border: `2px solid ${item.bgColor}` }}
             >
-              <Icon icon={item.icon} color='#fff' />
+              <Icon icon={item.icon} color={item.bgColor} />
             </div>
           ))}
         </div>
@@ -76,14 +86,17 @@ export default function SidebarContent({ movie }: { movie: MovieProps }) {
               key={genre.name}
               style={{
                 backgroundColor:
-                  (genre.name === 'Horror' && '#fe0000') ||
-                  (genre.name === 'Adventure' && '#441c87') ||
-                  (genre.name === 'Comedy' && '#00684e') ||
-                  (genre.name === 'Action' && '#ee462e') ||
-                  (genre.name === 'Mystery' && '#c70663') ||
-                  (genre.name === 'Animation' && '#c78d06') ||
-                  (genre.name === 'Family' && '#d50000') ||
-                  '#db01db',
+                  (genre.name === 'Horror' && genreColors[color]) ||
+                  (genre.name === 'Adventure' && genreColors[color]) ||
+                  (genre.name === 'Comedy' && genreColors[color]) ||
+                  (genre.name === 'Action' && genreColors[color]) ||
+                  (genre.name === 'Mystery' && genreColors[color]) ||
+                  (genre.name === 'Animation' && genreColors[color]) ||
+                  (genre.name === 'Family' && genreColors[color]) ||
+                  (genre.name === 'Fantacy' && genreColors[color]) ||
+                  (genre.name === 'Music' && genreColors[color]) ||
+                  (genre.name === 'Romance' && genreColors[color]) ||
+                  genreColors[color],
               }}
               className='compilation-item small'
             >
@@ -124,7 +137,7 @@ export default function SidebarContent({ movie }: { movie: MovieProps }) {
 
 const Wrapper = styled.div`
   .vote-card-wrapper {
-    height: 200px;
+    height: 100%;
     width: 100%;
     background-size: cover;
     border-radius: 20px;
@@ -136,7 +149,7 @@ const Wrapper = styled.div`
     }
   }
   .companies {
-    justify-content: space-between;
+    justify-content: space-around;
     .company-item {
       height: 50px;
       width: 50px;
@@ -161,7 +174,6 @@ const Wrapper = styled.div`
         border-radius: 50%;
         display: block;
         line-height: 90px;
-        vertical-align: middle;
         text-align: center;
       }
     }

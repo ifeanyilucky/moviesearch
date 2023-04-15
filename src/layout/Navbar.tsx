@@ -90,18 +90,17 @@ const Wrapper = styled.div`
       opacity: 0;
     }
     to {
-      margin-top: 1.5rem;
+      margin-top: 0;
       opacity: 1;
     }
   }
   @keyframes fadeInDown {
     from {
-      margin-top: 6rem;
-      margin-right: 6rem;
+      margin-bottom: 6rem;
       opacity: 0;
     }
     to {
-      margin-top: 1.5rem;
+      margin-bottom: 0;
       opacity: 1;
     }
   }
@@ -112,7 +111,7 @@ const Wrapper = styled.div`
       opacity: 0;
     }
     to {
-      margin-top: 1.5rem;
+      margin-top: 0;
       opacity: 1;
     }
   }

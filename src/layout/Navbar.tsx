@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import LandingSidebar from '../components/LandingPage/LandingSidebar';
 import { Close, SearchIcon } from '../Icons';
@@ -8,6 +8,10 @@ import { Close, SearchIcon } from '../Icons';
 export default function Navbar() {
   // const categories: Array<string> = ['Sports', 'Action', 'Drama', 'Romance'];
   const [isOpen, setOpen] = useState(false);
+  const { pathname } = useLocation();
+  useEffect(() => {
+    if (pathname) setOpen(false);
+  }, [pathname]);
   return (
     <>
       <Wrapper isOpen={isOpen}>
@@ -50,6 +54,11 @@ const Wrapper = styled.div`
     height: 100%;
     left: 0;
     top: 0;
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    -webkit-animation-duration: 0.3s;
+    animation-name: ${({ isOpen }: { isOpen: boolean }) =>
+      isOpen ? 'fadeInDown' : 'fadeInUp'};
     display: ${({ isOpen }: { isOpen: boolean }) =>
       isOpen ? 'block' : 'none'};
   }
@@ -73,6 +82,38 @@ const Wrapper = styled.div`
     z-index: 99999;
     @media (min-width: 768px) {
       display: none;
+    }
+  }
+  @keyframes fadeInUp {
+    from {
+      margin-top: 4rem;
+      opacity: 0;
+    }
+    to {
+      margin-top: 1.5rem;
+      opacity: 1;
+    }
+  }
+  @keyframes fadeInDown {
+    from {
+      margin-top: 6rem;
+      margin-right: 6rem;
+      opacity: 0;
+    }
+    to {
+      margin-top: 1.5rem;
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes fadeInUp {
+    from {
+      margin-top: 4rem;
+      opacity: 0;
+    }
+    to {
+      margin-top: 1.5rem;
+      opacity: 1;
     }
   }
 `;

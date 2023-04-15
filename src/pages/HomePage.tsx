@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
+import LazyLoad from 'react-lazyload';
 import { fetchPopularMovies, fetchMovieImg } from '../utils/axios';
 import LandingSidebar from '../components/LandingPage/LandingSidebar';
 import Navbar from '../layout/Navbar';
@@ -76,10 +77,16 @@ export default function HomePage() {
                     >
                       <div className='poster-card'>
                         <div className='poster-img'>
-                          <Image
+                          {/* <Image
                             alt={movie.title}
                             src={`${fetchMovieImg(movie.poster_path)}`}
-                          />
+                          /> */}
+                          <LazyLoad>
+                            <img
+                              alt={movie.title}
+                              src={`${fetchMovieImg(movie.poster_path)}`}
+                            />
+                          </LazyLoad>
                         </div>
                         <div className='py-2'>
                           <h6>{movie.original_title}</h6>

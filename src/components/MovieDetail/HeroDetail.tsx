@@ -46,7 +46,7 @@ export default function HeroDetail({ movie }: { movie: MovieProps }) {
         }}
       >
         <div className='row justify-content-between align-items-center'>
-          <div className='col-6'>
+          <div className='col-md-6 col-12'>
             <div className='left-row'>
               <div className='top'>
                 <div className='d-flex align-items-center'>
@@ -76,7 +76,7 @@ export default function HeroDetail({ movie }: { movie: MovieProps }) {
               </div>
             </div>
           </div>
-          <div className='col-6 position-relative'>
+          <div className='col-md-6 position-relative'>
             <div className='right-row'>
               <div className='top'>
                 <button className='blurry-btn' onClick={handleFavoriteClick}>
@@ -107,6 +107,24 @@ export default function HeroDetail({ movie }: { movie: MovieProps }) {
   );
 }
 const Wrapper = styled.div`
+  @media (max-width: 768px) {
+    .play-btn {
+      position: absolute !important;
+      top: 43%;
+      right: 44%;
+    }
+    .bottom,
+    .right-row,
+    .position-relative {
+      position: unset !important;
+    }
+    .movie-card {
+      position: relative;
+      background-color: red !important;
+      padding: 1rem !important;
+      height: 350px !important;
+    }
+  }
   margin: 20px 0;
   .movie-card {
     height: 500px;

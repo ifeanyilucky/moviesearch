@@ -86,6 +86,18 @@ export default function MovieDetail() {
 
 const Wrapper = styled.div`
   background-color: #000;
+  @media (max-width: 768px) {
+    .cast-img {
+      height: 100px !important;
+      width: 100px !important;
+    }
+  }
+  /* @media (max-width: 547px) {
+    .cast-img {
+      height: 80px !important;
+      width: 80px !important;
+    }
+  } */
   .cast-wrapper {
     .cast {
       align-items: center;

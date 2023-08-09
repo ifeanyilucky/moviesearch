@@ -1,14 +1,14 @@
 // import LandingHero from "../"
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { Icon } from '@iconify/react';
-import LazyLoad from 'react-lazyload';
-import { fetchPopularMovies, fetchMovieImg } from '../utils/axios';
-import LandingSidebar from '../components/LandingPage/LandingSidebar';
-import Navbar from '../layout/Navbar';
-import { MovieProps } from '../types';
-import Image from '../components/Image';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Icon } from "@iconify/react";
+import LazyLoad from "react-lazyload";
+import { fetchPopularMovies, fetchMovieImg } from "../utils/axios";
+import LandingSidebar from "../components/LandingPage/LandingSidebar";
+import Navbar from "../layout/Navbar";
+import { MovieProps } from "../types";
+import Image from "../components/Image";
 
 export default function HomePage() {
   const [movies, setMovies] = useState<Array<MovieProps>>([]);
@@ -32,79 +32,63 @@ export default function HomePage() {
   }, []);
 
   return (
-    <Wrapper className='container-fluid'>
-      <div className='row'>
-        <div className='col-md-8'>
-          {!movies ? (
-            <h2>Is Loading...</h2>
-          ) : (
-            <section className='container position-relative text-white'>
-              <div
-                className='hero-card mt-5'
-                style={{
-                  backgroundImage: `linear-gradient(to top, rgba(0, 0, 0 , 1), transparent) , url(${fetchMovieImg(
-                    movies[sliderIndex]?.backdrop_path
-                  )})`,
-                }}
-              >
-                <h3>{movies[sliderIndex]?.title}</h3>
+    <Wrapper
+      style={{
+        backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2) ),  url("${fetchMovieImg(
+          movies[0]?.backdrop_path
+        )}")`,
+      }}
+    >
+      <div className="container pt-md-5">
+        <div className="row mt-5">
+          <div className="col-md-6 pt-5">
+            <div>
+              <div className="chip small">New Movie</div>
+
+              <h2 className="display-3">{movies[0]?.original_title}</h2>
+              <p>{movies[0]?.overview}</p>
+
+              <div>
+                <button className="button">Watch Thriller</button>
+                <button className="button transparent">More Info</button>
               </div>
-              <div className='row my-5'>
-                <div className='col-md-6'>
-                  <div className='category-card'>
-                    <div className='backdrop'>
-                      <h3>Halloween movies</h3>
-                    </div>
-                  </div>
-                </div>
-                <div className='col-md-6'>
-                  <div className='category-card'>
-                    <div className='backdrop'>
-                      <h2>New year's movies</h2>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='row my-5'>
-                {movies.map((movie: MovieProps) => (
-                  <div
-                    className='col-md-4 col-sm-6 col-xs-6 col-xl-3 my-2'
-                    key={movie?.id}
-                  >
-                    <Link
-                      to={`/${movie?.id}`}
-                      style={{ color: '#fff', textDecoration: 'none' }}
-                    >
-                      <div className='poster-card'>
-                        <div className='poster-img'>
-                          {/* <Image
-                            alt={movie.title}
-                            src={`${fetchMovieImg(movie.poster_path)}`}
-                          /> */}
-                          <LazyLoad>
-                            <img
-                              alt={movie.title}
-                              src={`${fetchMovieImg(movie.poster_path)}`}
-                            />
-                          </LazyLoad>
-                        </div>
-                        <div className='py-2'>
-                          <h6>{movie.original_title}</h6>
-                          <p className='small'>
-                            {new Date(movie.release_date).getFullYear()}
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
+            </div>
+          </div>
+          <div className="col-md-6 align-items-end position-relative">
+            <div className="indicator">
+              <div />
+              <div />
+              <div />
+            </div>
+          </div>
         </div>
-        <div className='col-md-4 sidebar-wrapper' style={{ height: '100%' }}>
-          <div style={{ height: '100%' }}>
-            <LandingSidebar />
+
+        {/* TRENDING NOW */}
+        <div className="trending-now mt-5">
+          <div className="d-flex justify-content-between align-items-center my-3">
+            <h4>Trending Now</h4>
+            <button className="button sm transparent">See more</button>
+          </div>
+
+          {/* Trend cards */}
+          <div className="trend-cards">
+            {movies.slice(1, 4).map((movie) => (
+              <div className="trend-card" key={movie?.id}>
+                <div
+                  className="trend-image"
+                  style={{
+                    backgroundImage: `url(${fetchMovieImg(
+                      movie?.backdrop_path
+                    )})`,
+                  }}
+                >
+                  <span className="chip small">
+                    {movie.genres && movie?.genres[0]?.name}
+                  </span>
+                </div>
+                <h5 className="mt-3">{movie?.title}</h5>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -113,61 +97,55 @@ export default function HomePage() {
 }
 
 const Wrapper = styled.div`
-  .sidebar-wrapper {
-    position: sticky !important;
-    top: 18px;
-    right: 0;
-    @media (max-width: 768px) {
-      display: none;
-    }
-  }
-  .poster-card {
-    cursor: pointer;
-    .poster-img {
-      height: 260px;
-      width: 100%;
-      border-radius: 20px;
-      overflow: hidden;
-      img {
-        transition: all 0.5s ease-in-out;
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-      }
-      :hover img {
-        transform: scale(1.3);
-      }
-    }
-  }
-  .hero-card {
-    height: 400px;
-    width: 100%;
-    border-radius: 20px;
-    background-size: cover;
+  height: 100%;
+  min-height: 500px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  .indicator {
     display: flex;
-    align-items: flex-end;
-    padding: 2rem;
+    flex-flow: row;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    div {
+      height: 3.5px;
+      width: 60px;
+
+      margin: 0 5px;
+      &:first-child {
+        background-color: rgba(255, 255, 255, 1);
+      }
+      &:nth-child(2) {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+      &:last-child {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+    }
   }
-  .category-card {
-    height: 200px;
-    width: 100%;
-    /* background-color: #232323; */
-    background-size: cover;
-    border-radius: 20px;
-    &:nth-child(1) {
-      background-image: url('/static/images/halloween-image.jpg');
-    }
-    &:nth-child(2) {
-      background-image: url('/static/images/new-year-image.jpg');
-    }
-    .backdrop {
+  .trending-now {
+    .trend-cards {
       display: flex;
-      align-items: center;
-      justify-content: space-around;
-      backdrop-filter: blur(5px);
-      padding: 1rem;
-      height: 100%;
-      width: 100%;
+      flex-flow: row;
+      justify-content: space-between;
+
+      .trend-card {
+        margin: 0 15px;
+        flex: 33%;
+
+        .trend-image {
+          height: 160px;
+          padding: 10px;
+          width: 100%;
+          background-color: #fff;
+          border-radius: 18px;
+          background-size: cover;
+          background-position: center;
+        }
+      }
     }
   }
 `;

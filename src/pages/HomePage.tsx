@@ -1,7 +1,7 @@
 // import LandingHero from "../"
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import LazyLoad from "react-lazyload";
 import { fetchPopularMovies, fetchMovieImg } from "../utils/axios";
@@ -12,8 +12,10 @@ import Image from "../components/Image";
 
 export default function HomePage() {
   const [movies, setMovies] = useState<Array<MovieProps>>([]);
+  const [currentMovie, setCurrentMovie] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [sliderIndex, setSliderIndex] = useState<number>(4);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getMovies = async () => {
@@ -31,11 +33,34 @@ export default function HomePage() {
     getMovies();
   }, []);
 
+  // Automatically switch movie background
+  const timeoutRef: React.MutableRefObject<null | number> = useRef(null);
+  const resetTimeout = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  };
+  useEffect(() => {
+    resetTimeout();
+    timeoutRef.current = window.setTimeout(() => {
+      setCurrentMovie((current) => {
+        if (current === 2) {
+          return 0;
+        } else {
+          return current + 1;
+        }
+      });
+    }, 3000);
+    return () => {
+      resetTimeout();
+    };
+  }, [currentMovie]);
+
   return (
     <Wrapper
       style={{
         backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2) ),  url("${fetchMovieImg(
-          movies[0]?.backdrop_path
+          movies[currentMovie]?.backdrop_path
         )}")`,
       }}
     >
@@ -45,20 +70,35 @@ export default function HomePage() {
             <div>
               <div className="chip small">New Movie</div>
 
-              <h2 className="display-3">{movies[0]?.original_title}</h2>
-              <p>{movies[0]?.overview}</p>
+              <h2 className="display-3">
+                {movies[currentMovie]?.original_title}
+              </h2>
+              <p>{movies[currentMovie]?.overview}</p>
 
               <div>
                 <button className="button">Watch Thriller</button>
-                <button className="button transparent">More Info</button>
+                <button
+                  className="button transparent"
+                  onClick={() => navigate(`/${movies[currentMovie]?.id}`)}
+                >
+                  More Info
+                </button>
               </div>
             </div>
           </div>
           <div className="col-md-6 align-items-end position-relative">
             <div className="indicator">
-              <div />
-              <div />
-              <div />
+              {[0, 1, 2].map((item) => (
+                <div
+                  onClick={() => setCurrentMovie(0)}
+                  style={{
+                    backgroundColor:
+                      currentMovie === item
+                        ? "rgba(255, 255, 255, 1)"
+                        : "rgba(255, 255, 255, 0.5)",
+                  }}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -83,7 +123,7 @@ export default function HomePage() {
                   }}
                 >
                   <span className="chip small">
-                    {movie.genres && movie?.genres[0]?.name}
+                    {movie.genres && movie?.genres[currentMovie]?.name}
                   </span>
                 </div>
                 <h5 className="mt-3">{movie?.title}</h5>
@@ -113,17 +153,9 @@ const Wrapper = styled.div`
     div {
       height: 3.5px;
       width: 60px;
-
+      border-radius: 20px;
       margin: 0 5px;
-      &:first-child {
-        background-color: rgba(255, 255, 255, 1);
-      }
-      &:nth-child(2) {
-        background-color: rgba(255, 255, 255, 0.5);
-      }
-      &:last-child {
-        background-color: rgba(255, 255, 255, 0.5);
-      }
+      cursor: pointer;
     }
   }
   .trending-now {

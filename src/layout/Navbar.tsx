@@ -54,6 +54,9 @@ const Wrapper = styled.div`
   z-index: 99999 !important;
   background-color: transparent;
   position: absolute;
+  padding: auto 2rem;
+  left: 5rem;
+  top: 1rem;
   .nav-search {
     @media (min-width: 768px) {
       display: none;

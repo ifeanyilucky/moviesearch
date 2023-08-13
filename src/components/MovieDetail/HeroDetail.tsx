@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Icon } from '@iconify/react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { fetchMovieImg } from '../../utils/axios';
-import Modal from 'react-modal';
-import { MovieProps } from '../../types';
+import React, { useState } from "react";
+import { Icon } from "@iconify/react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { fetchMovieImg } from "../../utils/axios";
+import Modal from "react-modal";
+import { MovieProps } from "../../types";
+import { PlayIcon } from "../../Icons";
 
 export default function HeroDetail({ movie }: { movie: MovieProps }) {
   const navigate = useNavigate();
@@ -21,45 +22,45 @@ export default function HeroDetail({ movie }: { movie: MovieProps }) {
       <Modal
         isOpen={videoOpen}
         onRequestClose={() => setVideoOpen(false)}
-        contentLabel='Movie modal'
+        contentLabel="Movie modal"
         style={{
-          overlay: { backgroundColor: 'rgba(0,0,0,0.9)' },
-          content: { backgroundColor: '#000' },
+          overlay: { backgroundColor: "rgba(0,0,0,0.9)" },
+          content: { backgroundColor: "#000" },
         }}
       >
         <h4>Official trailer</h4>
         <iframe
-          width='100%'
-          height='100%'
-          src='https://www.youtube-nocookie.com/embed/KH-pw1cv34E'
-          title='YouTube video player'
-          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+          width="100%"
+          height="100%"
+          src="https://www.youtube-nocookie.com/embed/KH-pw1cv34E"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         ></iframe>
       </Modal>
       <div
-        className='movie-card'
+        className="movie-card"
         style={{
           background: `linear-gradient(to top, rgba(0, 0, 0, 0.81), transparent), url(${fetchMovieImg(
             movie?.backdrop_path
           )})`,
         }}
       >
-        <div className='row justify-content-between align-items-center'>
-          <div className=''>
-            <div className='left-row'>
-              <div className='top'>
-                <div className='d-flex align-items-center'>
-                  <button className=' blurry-btn' onClick={() => navigate(-1)}>
-                    <Icon icon={'ic:baseline-keyboard-arrow-left'} />
+        <div className="row justify-content-between align-items-center">
+          <div className="">
+            <div className="left-row">
+              <div className="top">
+                <div className="d-flex align-items-center">
+                  <button className=" blurry-btn" onClick={() => navigate(-1)}>
+                    <Icon icon={"ic:baseline-keyboard-arrow-left"} />
                   </button>
                   {/* <span className='small'>Back</span> */}
                 </div>
               </div>
-              <div className='bottom'>
+              <div className="bottom">
                 <h4 style={{ fontWeight: 700 }}>
-                  {movie?.original_title}{' '}
-                  <span style={{ color: '#d3d3d3' }}>
+                  {movie?.original_title}{" "}
+                  <span style={{ color: "#d3d3d3" }}>
                     {new Date(movie?.release_date).getFullYear()}
                   </span>
                 </h4>
@@ -76,27 +77,27 @@ export default function HeroDetail({ movie }: { movie: MovieProps }) {
               </div>
             </div>
           </div>
-          <div className='position-relative'>
-            <div className='right-row'>
-              <div className='top'>
-                <button className='blurry-btn' onClick={handleFavoriteClick}>
+          <div className="position-relative">
+            <div className="right-row">
+              <div className="top">
+                <button className="blurry-btn" onClick={handleFavoriteClick}>
                   <Icon
-                    icon='mdi:cards-heart'
-                    color={favorite ? '#fe0000' : '#000'}
+                    icon="mdi:cards-heart"
+                    color={favorite ? "#fe0000" : "#000"}
                   />
                 </button>
-                <button className='blurry-btn'>
-                  <Icon icon='material-symbols:share-outline' />
+                <button className="blurry-btn">
+                  <Icon icon="material-symbols:share-outline" />
                 </button>
-                <button className='blurry-btn'>
+                <button className="blurry-btn">
                   <span>
-                    <Icon icon='bi:three-dots-vertical' />
+                    <Icon icon="bi:three-dots-vertical" />
                   </span>
                 </button>
               </div>
-              <div className='bottom'>
-                <button className='play-btn' onClick={() => setVideoOpen(true)}>
-                  <Icon icon='material-symbols:play-arrow' />
+              <div className="bottom">
+                <button className="play-btn" onClick={() => setVideoOpen(true)}>
+                  <PlayIcon />
                 </button>
               </div>
             </div>

@@ -3,11 +3,19 @@ import styled from "styled-components";
 import { MovieProps } from "../../types";
 import { fetchMovieImg } from "../../utils/axios";
 import { PlayIcon } from "../../Icons";
+import VideoModal from "../VideoModal";
 
 export default function GenerationMovies({ movies }: { movies: MovieProps[] }) {
   const [currentSlide, setCurrentSlide] = React.useState(1);
+  const [showVideo, setShowVideo] = React.useState(false);
+  const [movieId, setMovieId] = React.useState("");
   return (
     <Wrapper>
+      {showVideo && movieId ? (
+        <VideoModal show={showVideo} movieId={movieId} setShow={setShowVideo} />
+      ) : (
+        ""
+      )}
       <div className="mt-5 py-5">
         <div className="row mx-auto">
           <div className="col-9 mx-auto">
@@ -24,7 +32,7 @@ export default function GenerationMovies({ movies }: { movies: MovieProps[] }) {
               <div
                 className="curved-image p-2"
                 style={{
-                  backgroundImage: `url(${fetchMovieImg(
+                  backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${fetchMovieImg(
                     movie?.backdrop_path
                   )})`,
                 }}
@@ -34,9 +42,18 @@ export default function GenerationMovies({ movies }: { movies: MovieProps[] }) {
                 </div>
                 <div className="image-footer text-center pt-3">
                   <div className="d-flex align-items-center justify-content-around text-center">
-                    {/* <PlayIcon /> */}
-
-                    <p>Watch The Thriller</p>
+                    <button
+                      className="button transparent sm"
+                      onClick={() => {
+                        setShowVideo(true);
+                        setMovieId(movie?.id as unknown as string);
+                      }}
+                    >
+                      <span> Watch The Thriller</span>{" "}
+                      <span>
+                        <PlayIcon />
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>

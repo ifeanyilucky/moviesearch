@@ -1,32 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 import GenerationMovies from "../components/LandingPage/Generation";
 import LandingHero from "../components/LandingPage/LandingHero";
-import { fetchPopularMovies } from "../utils/axios";
+import MovieCast from "../components/LandingPage/MovieCast";
+import { fetchPopularMovies, fetchTrendingMovies } from "../utils/axios";
 import { MovieProps } from "../types";
 
 export default function HomePage() {
-  const [movies, setMovies] = React.useState<Array<MovieProps>>([]);
+  const [popularMovies, setPopularMovies] = React.useState<Array<MovieProps>>(
+    []
+  );
+  const [trendingMovies, setTrendingMovies] = React.useState<Array<MovieProps>>(
+    []
+  );
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-  React.useEffect(() => {
-    const getMovies = async () => {
-      setIsLoading(true);
-      try {
-        const { data } = await fetchPopularMovies();
-        console.log(data);
-        setMovies(data?.results);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
+  useEffect(() => {
+    setIsLoading(true);
+    Promise.all([fetchPopularMovies(), fetchTrendingMovies()]).then(
+      ([popular, trending]) => {
+        setPopularMovies(popular.data?.results);
+        setTrendingMovies(trending.data?.results);
         setIsLoading(false);
       }
-    };
-    getMovies();
+    );
   }, []);
+  console.log(trendingMovies);
+  console.log(popularMovies);
   return (
     <>
-      <LandingHero movies={movies} />
-      <GenerationMovies movies={movies} />
+      {isLoading ? (
+        <h4>Loading...</h4>
+      ) : (
+        <>
+          <LandingHero
+            popularMovies={popularMovies}
+            trendingMovies={trendingMovies}
+          />
+          <GenerationMovies movies={popularMovies} />
+          <MovieCast movies={trendingMovies} />
+        </>
+      )}
     </>
   );
 }

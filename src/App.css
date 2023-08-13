@@ -10,6 +10,7 @@
 /* Button */
 .button {
   background-color: #fff;
+  color: #000 !important;
   outline: none;
   border: none;
   border-radius: 27px;
@@ -18,16 +19,23 @@
 }
 .button.transparent {
   background-color: transparent;
-  color: #fff;
+  color: #fff !important;
   border: 1px solid #fff;
   transition: all 0.4s ease-in-out;
 }
 .button.transparent:hover {
   background-color: #fff;
-  color: #000;
+  color: #000 !important;
 }
 
 .button.sm {
   padding: 5px 20px;
   font-size: 14px;
+}
+
+a {
+  color: white;
+}
+a:hover {
+  color: white;
 }

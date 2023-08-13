@@ -1,22 +1,24 @@
-import React from 'react';
-import { useRoutes, Outlet } from 'react-router-dom';
-import { HomePage, MovieDetail } from '../pages';
-import Navbar from '../layout/Navbar';
+import React from "react";
+import { useRoutes, Outlet } from "react-router-dom";
+import { HomePage, MovieDetail } from "../pages";
+import Navbar from "../layout/Navbar";
+import Footer from "../layout/Footer";
 
 export default function Routes() {
   return useRoutes([
     {
-      path: '/',
+      path: "/",
       element: (
         <>
           <Navbar />
+          <Footer />
         </>
       ),
       children: [
-        { path: '/', element: <HomePage /> },
-        { path: '/:id', element: <MovieDetail /> },
+        { path: "/", element: <HomePage /> },
+        { path: "/:id", element: <MovieDetail /> },
         {
-          path: '/about',
+          path: "/about",
           element: (
             <div>
               <h2>About us</h2>

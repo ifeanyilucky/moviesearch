@@ -2,15 +2,20 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { Icon } from "@iconify/react";
-import LazyLoad from "react-lazyload";
-import { fetchPopularMovies, fetchMovieImg } from "../../utils/axios";
+import { fetchMovieImg } from "../../utils/axios";
 import LandingSidebar from "../LandingPage/LandingSidebar";
 import Navbar from "../../layout/Navbar";
 import { MovieProps } from "../../types";
 import Image from "../Image";
+import { PlayIcon } from "../../Icons";
 
-export default function LandingHero({ movies }: { movies: MovieProps[] }) {
+export default function LandingHero({
+  popularMovies,
+  trendingMovies,
+}: {
+  popularMovies: MovieProps[];
+  trendingMovies: MovieProps[];
+}) {
   const [currentMovie, setCurrentMovie] = useState(0);
 
   const [sliderIndex, setSliderIndex] = useState<number>(4);
@@ -43,7 +48,7 @@ export default function LandingHero({ movies }: { movies: MovieProps[] }) {
     <Wrapper
       style={{
         backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2) ),  url("${fetchMovieImg(
-          movies[currentMovie]?.backdrop_path
+          popularMovies[currentMovie]?.backdrop_path
         )}")`,
       }}
     >
@@ -54,15 +59,19 @@ export default function LandingHero({ movies }: { movies: MovieProps[] }) {
               <div className="chip small">New Movie</div>
 
               <h2 className="display-3 py-2">
-                {movies[currentMovie]?.original_title}
+                {popularMovies[currentMovie]?.original_title}
               </h2>
-              <p>{movies[currentMovie]?.overview}</p>
+              <p>{popularMovies[currentMovie]?.overview}</p>
 
               <div className="py-2">
-                <button className="button">Watch Thriller</button>
+                <button className="button" onClick={() => {}}>
+                  Watch Thriller <PlayIcon />
+                </button>
                 <button
                   className="button transparent"
-                  onClick={() => navigate(`/${movies[currentMovie]?.id}`)}
+                  onClick={() =>
+                    navigate(`/${popularMovies[currentMovie]?.id}`)
+                  }
                 >
                   More Info
                 </button>
@@ -95,7 +104,7 @@ export default function LandingHero({ movies }: { movies: MovieProps[] }) {
 
           {/* Trend cards */}
           <div className="trend-cards pt-3">
-            {movies.slice(1, 4).map((movie) => (
+            {trendingMovies?.slice(0, 15).map((movie) => (
               <div className="trend-card" key={movie?.id}>
                 <div
                   className="trend-image"
@@ -149,10 +158,13 @@ const Wrapper = styled.div`
       display: flex;
       flex-flow: row;
       justify-content: space-between;
+      overflow-x: scroll;
+      width: 100%;
 
       .trend-card {
         margin: 0 15px;
-        flex: 33%;
+        min-width: 300px;
+        width: 300px;
 
         .trend-image {
           height: 160px;
@@ -163,6 +175,32 @@ const Wrapper = styled.div`
           background-size: cover;
           background-position: center;
         }
+      }
+
+      /* scroll bar styling */
+      ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #f5f5f5;
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar {
+        height: 7px;
+        background-color: #f5f5f5;
+        display: none;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: red;
+        border-radius: 10px;
+        background-image: -webkit-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.5) 25%,
+          transparent 25%,
+          transparent 50%,
+          rgba(255, 255, 255, 0.5) 50%,
+          rgba(255, 255, 255, 0.5) 75%,
+          transparent 75%,
+          transparent
+        );
       }
     }
     @media (max-width: 768px) {

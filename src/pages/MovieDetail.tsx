@@ -1,13 +1,13 @@
 // import LandingHero from "../"
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 // import { Icon } from '@iconify/react';
-import { useParams } from 'react-router-dom';
-import { fetchSingleMovie, fetchMovieImg, getCredits } from '../utils/axios';
+import { useParams } from "react-router-dom";
+import { fetchSingleMovie, fetchMovieImg, getCredits } from "../utils/axios";
 // import config from '../config';
-import HeroDetail from '../components/MovieDetail/HeroDetail';
-import SidebarContent from '../components/MovieDetail/SidebarContent';
-import { CastProps, MovieProps } from '../types';
+import HeroDetail from "../components/MovieDetail/HeroDetail";
+import SidebarContent from "../components/MovieDetail/SidebarContent";
+import { CastProps, MovieProps } from "../types";
 
 export default function MovieDetail() {
   const [movie, setMovie] = useState<MovieProps | any>({});
@@ -40,28 +40,28 @@ export default function MovieDetail() {
         <h2>Loading</h2>
       ) : (
         <>
-          <section className='container mt-5 text-white'>
-            <div className='row'>
-              <div className='col-md-8 col-sm-12 col-xs-12'>
+          <section className="container mt-5 text-white">
+            <div className="row">
+              <div className="col-md-8 col-sm-12 col-xs-12">
                 <HeroDetail movie={movie} />
                 {/* <HeroDetail />
               <HeroDetail /> */}
-                <div className='my-5'>
+                <div className="my-5">
                   <h3>Overview</h3>
                   <p>{movie.overview}</p>
                 </div>
-                <div className='my-3'>
-                  <h3 className='mb-3'>Top cast</h3>
-                  <div className='cast-wrapper row'>
+                <div className="my-3">
+                  <h3 className="mb-3">Top cast</h3>
+                  <div className="cast-wrapper row">
                     {cast?.slice(0, 4).map((item: CastProps) => (
-                      <div key={item.id} className='cast col-6'>
-                        <div className='cast-img'>
+                      <div key={item.id} className="cast col-6">
+                        <div className="cast-img">
                           <img
                             src={fetchMovieImg(item?.profile_path)}
                             alt={item.name}
                           />
                         </div>
-                        <p className='small text-center my-3'>
+                        <p className="small text-center my-3">
                           <strong>{item?.original_name}</strong>
                           <br />
                           <span>{item?.character}</span>
@@ -70,9 +70,12 @@ export default function MovieDetail() {
                     ))}
                   </div>
                 </div>
+                <div className="my-3">
+                  <h3 className="mb-3">Media</h3>
+                </div>
               </div>
-              <div className='col-md-4 col-sm-12 col-xs-12 position-relative'>
-                <div className='position-sticky top-0'>
+              <div className="col-md-4 col-sm-12 col-xs-12 position-relative">
+                <div className="position-sticky top-0">
                   <SidebarContent movie={movie} />
                 </div>
               </div>

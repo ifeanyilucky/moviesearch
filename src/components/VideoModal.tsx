@@ -4,14 +4,18 @@ import styled from "styled-components";
 import { getMovieVideo } from "../utils/axios";
 import { Close } from "../Icons";
 
-export class VideoModal extends Component<
-  {
-    movieId: string;
-    show: boolean;
-    setShow: React.Dispatch<React.SetStateAction<boolean>>;
-  },
-  { isLoading: boolean; video: IVideo }
-> {
+type IState = {
+  isLoading: boolean;
+  video: IVideo;
+};
+
+type IProp = {
+  movieId: string;
+  show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export class VideoModal extends Component<IProp, IState> {
   constructor(props: any) {
     super(props);
     this.state = {

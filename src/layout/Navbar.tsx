@@ -5,11 +5,13 @@ import { Icon } from "@iconify/react";
 import LandingSidebar from "../components/LandingPage/LandingSidebar";
 import { Close, SearchIcon } from "../Icons";
 import SideBarModal from "../components/SidebarModal";
+import NavSearch from "./NavSearch";
 
 export default function Navbar() {
   // const categories: Array<string> = ['Sports', 'Action', 'Drama', 'Romance'];
   const [isOpen, setOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const { pathname } = useLocation();
   useEffect(() => {
     if (pathname) setOpen(false);
@@ -17,23 +19,18 @@ export default function Navbar() {
   return (
     <>
       <Wrapper isOpen={isOpen}>
-        <div className="container position-relative">
-          <div className="navigation-bar justify-content-between align-items-center">
+        <div className="container">
+          <div className="navigation-bar justify-content-between align-items-baseline">
             <div className="left-nav">
               <div className="logo">
                 <h4>MovieDB</h4>
               </div>
             </div>
             <div className="right-nav">
-              <div
-                className="nav-toggle"
-                onClick={() => (isOpen ? setOpen(false) : setOpen(true))}
-              >
-                {isOpen ? <Close /> : <SearchIcon />}
-              </div>
+              <NavSearch />
             </div>
           </div>
-          <div className="nav-search">
+          {/* <div className="nav-search">
             <SideBarModal
               show={showSearch}
               closeShow={() => setShowSearch(false)}
@@ -41,7 +38,7 @@ export default function Navbar() {
               overlayColor={""}
               css={undefined}
             />
-          </div>
+          </div> */}
         </div>
       </Wrapper>
       <Outlet />
@@ -51,12 +48,12 @@ export default function Navbar() {
 
 const Wrapper = styled.div`
   padding-top: 1.5rem;
-  z-index: 99999 !important;
+  z-index: 99 !important;
   background-color: transparent;
-  position: absolute;
-  padding: auto 2rem;
+
   left: 5rem;
   top: 1rem;
+  width: 100%;
   .nav-search {
     @media (min-width: 768px) {
       display: none;
@@ -77,6 +74,13 @@ const Wrapper = styled.div`
   .navigation-bar {
     display: flex;
     flex-flow: row;
+    width: 100%;
+    .left-nav {
+      flex: 30%;
+    }
+    .right-nav {
+      flex: 40%;
+    }
   }
 
   .logo {
@@ -84,18 +88,6 @@ const Wrapper = styled.div`
     z-index: 999 !important;
   }
 
-  .nav-toggle {
-    width: 32px;
-    will-change: transform;
-    position: relative;
-    height: 32px;
-    cursor: pointer;
-    display: block;
-    z-index: 99999;
-    @media (min-width: 768px) {
-      display: none;
-    }
-  }
   @keyframes fadeInUp {
     from {
       margin-top: 4rem;

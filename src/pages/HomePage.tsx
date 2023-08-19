@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import GenerationMovies from "../components/LandingPage/Generation";
-import LandingHero from "../components/LandingPage/LandingHero";
-import MovieCast from "../components/LandingPage/MovieCast";
+
+import {
+  MovieCast,
+  LandingHero,
+  TrailerVideos,
+} from "../components/LandingPage";
+
 import { fetchPopularMovies, fetchTrendingMovies } from "../utils/axios";
 import { MovieProps } from "../types";
 
@@ -40,6 +45,7 @@ export default function HomePage() {
           <MovieCast movies={trendingMovies} />
         </>
       )}
+      <TrailerVideos />
     </>
   );
 }

@@ -1,25 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css");
+
+@font-face {
+  font-family: TWK Everett;
+  font-weight: 500;
+  src: url("/public/static/fonts/TWKEverett-Medium-web.woff2") format("woff2"),
+    url("/public/static/fonts/TWKEverett-Medium-web.woff") format("woff"),
+    url("/public/static/fonts/TWKEverett-Medium-web.ttf") format("ttf");
+  font-display: swap;
+}
+
 body {
   margin: 0;
-  font-family: archiaregular !important;
+  font-family: Inter !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #000 !important;
   color: #fff !important;
 }
-
-@font-face {
-  font-family: 'archiaregular';
-  src: url('/public/static/fonts/archia-regular-webfont.eot');
-  src: url('/public/static/fonts/archia-regular-webfont.eot?#iefix')
-      format('embedded-opentype'),
-    url('/public/static/fonts/archia-regular-webfont.woff2') format('woff2'),
-    url('/public/static/fonts/archia-regular-webfont.woff') format('woff'),
-    url('/public/static/fonts/archia-regular-webfont.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: TWK Everett !important;
 }
-
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

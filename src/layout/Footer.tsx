@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import FooterSearch from "./FooterSearch";
 
 export default function Footer() {
   return (
     <Wrapper>
+      <FooterSearch />
       <div className="container">
         <div className="text-center">
           <p>&copy; {new Date().getFullYear()}. MovieDB.</p>

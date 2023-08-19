@@ -9,7 +9,7 @@ export default class TrailerVideos extends React.Component {
       <Wrapper>
         <div className="container">
           <div className="pb-5 mb-md-4">
-            <h1 className="extra-large">
+            <h1 className="display-1">
               <span style={{ color: "red" }}> Watch</span>
               <br />
               <span>Latest trailer's video.</span>
@@ -41,7 +41,6 @@ const Wrapper = styled.div`
   background: #fff;
   color: #000;
   width: 100%;
-
   padding: 5rem 0;
   .extra-large {
     font-size: 96px;

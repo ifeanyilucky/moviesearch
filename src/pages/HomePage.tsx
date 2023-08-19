@@ -42,7 +42,7 @@ export default function HomePage() {
             trendingMovies={trendingMovies}
           />
           <GenerationMovies movies={popularMovies} />
-          <MovieCast movies={trendingMovies} />
+          {/* <MovieCast movies={trendingMovies} /> */}
         </>
       )}
       <TrailerVideos />

@@ -4,6 +4,7 @@ import { MovieProps } from "../../types";
 import { fetchMovieImg } from "../../utils/axios";
 import { PlayIcon } from "../../Icons";
 import VideoModal from "../VideoModal";
+import Slider from "react-slick";
 
 export default function GenerationMovies({ movies }: { movies: MovieProps[] }) {
   const [currentSlide, setCurrentSlide] = React.useState(1);
@@ -20,18 +21,25 @@ export default function GenerationMovies({ movies }: { movies: MovieProps[] }) {
         <div className="mt-5 py-5">
           <h4>New Generation Of Watching Movies.</h4>
         </div>
-        <div className="slider">
+        <Slider
+          infinite={true}
+          // responsive={true}
+          swipeToSlide={true}
+          slidesToShow={2}
+          centerPadding="30px"
+        >
           {movies.map((movie: MovieProps) => (
             <div className="movie-card">
-              <div
+              <img
                 className="movie-card-image"
-                style={{
-                  backgroundImage: `url(${fetchMovieImg(movie.backdrop_path)})`,
-                }}
-              ></div>
+                src={`${fetchMovieImg(movie.backdrop_path)}`}
+                alt={`movie-img-${movie.id}`}
+                width="100%"
+                height="100%"
+              />
             </div>
           ))}
-        </div>
+        </Slider>
       </div>
     </Wrapper>
   );
@@ -48,6 +56,7 @@ const Wrapper = styled.div`
     width: 100%;
     .movie-card {
       min-width: 550px;
+      min-height: 300px;
 
       .movie-card-image {
         height: 360px;

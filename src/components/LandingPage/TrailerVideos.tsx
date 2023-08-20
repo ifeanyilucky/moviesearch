@@ -1,9 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import { PlayIcon } from "../../Icons";
+import Slider from "react-slick";
 
 export default class TrailerVideos extends React.Component {
   movies = new Array(10).fill(10);
+
+  slideSettings = {
+    className: "center",
+    centerMode: true,
+    infinite: false,
+    // centerPadding: "60px",
+    slidesToShow: 3,
+    speed: 500,
+  };
   render() {
     return (
       <Wrapper>
@@ -17,7 +27,8 @@ export default class TrailerVideos extends React.Component {
             <p className="lead">Explore free trailers and search for movies.</p>
           </div>
         </div>
-        <div className="slide">
+
+        <Slider {...this.slideSettings} centerPadding="30px">
           {this.movies.map((movie) => (
             <div className="trailer-card">
               <div className="head">
@@ -31,7 +42,7 @@ export default class TrailerVideos extends React.Component {
               </div>
             </div>
           ))}
-        </div>
+        </Slider>
       </Wrapper>
     );
   }
@@ -41,6 +52,7 @@ const Wrapper = styled.div`
   background: #fff;
   color: #000;
   width: 100%;
+  overflow-x: hidden !important;
   padding: 5rem 0;
   .extra-large {
     font-size: 96px;
@@ -50,9 +62,7 @@ const Wrapper = styled.div`
     overflow-x: scroll;
   }
   .trailer-card {
-    margin: 0 7px;
-    width: 380px;
-    min-width: 380px;
+    /* margin: 0 10px; */
 
     cursor: pointer;
     .head {

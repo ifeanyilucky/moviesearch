@@ -1,19 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { PlayIcon } from "../../Icons";
-import Slider from "react-slick";
 
 export default class TrailerVideos extends React.Component {
   movies = new Array(10).fill(10);
 
-  slideSettings = {
-    className: "center",
-    centerMode: true,
-    infinite: false,
-    // centerPadding: "60px",
-    slidesToShow: 3,
-    speed: 500,
-  };
   render() {
     return (
       <Wrapper>
@@ -27,22 +20,28 @@ export default class TrailerVideos extends React.Component {
             <p className="lead">Explore free trailers and search for movies.</p>
           </div>
         </div>
-
-        <Slider {...this.slideSettings} centerPadding="30px">
+        <Swiper slidesPerView={3} modules={[A11y]} spaceBetween={20}>
           {this.movies.map((movie) => (
-            <div className="trailer-card">
-              <div className="head">
-                <PlayIcon />
-              </div>
-              <div className="content px-2">
-                <p className="text-muted">
-                  <small>MOVIE {movie}</small>
-                </p>
-                <p className="lead">Movie Name</p>
-              </div>
-            </div>
+            <SwiperSlide>
+              {(sliderProp) => {
+                console.log(sliderProp);
+                return (
+                  <div className="trailer-card">
+                    <div className="head">
+                      <PlayIcon />
+                    </div>
+                    <div className="content px-2">
+                      <p className="text-muted">
+                        <small>MOVIE {movie}</small>
+                      </p>
+                      <p className="lead">Movie Name</p>
+                    </div>
+                  </div>
+                );
+              }}
+            </SwiperSlide>
           ))}
-        </Slider>
+        </Swiper>
       </Wrapper>
     );
   }
@@ -63,7 +62,7 @@ const Wrapper = styled.div`
   }
   .trailer-card {
     /* margin: 0 10px; */
-
+    min-width: 350px;
     cursor: pointer;
     .head {
       border-radius: 14px;

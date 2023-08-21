@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { MovieProps } from "../../types";
 import { fetchMovieImg } from "../../utils/axios";
 import { PlayIcon } from "../../Icons";
 import VideoModal from "../VideoModal";
-import Slider from "react-slick";
 
 export default function GenerationMovies({ movies }: { movies: MovieProps[] }) {
   const [currentSlide, setCurrentSlide] = React.useState(1);
@@ -21,25 +21,21 @@ export default function GenerationMovies({ movies }: { movies: MovieProps[] }) {
         <div className="mt-5 py-5">
           <h4>New Generation Of Watching Movies.</h4>
         </div>
-        <Slider
-          infinite={true}
-          // responsive={true}
-          swipeToSlide={true}
-          slidesToShow={2}
-          centerPadding="30px"
-        >
+        <Swiper slidesPerView={2}>
           {movies.map((movie: MovieProps) => (
-            <div className="movie-card">
-              <img
-                className="movie-card-image"
-                src={`${fetchMovieImg(movie.backdrop_path)}`}
-                alt={`movie-img-${movie.id}`}
-                width="100%"
-                height="100%"
-              />
-            </div>
+            <SwiperSlide>
+              <div className="movie-card">
+                <img
+                  className="movie-card-image"
+                  src={`${fetchMovieImg(movie.backdrop_path)}`}
+                  alt={`movie-img-${movie.id}`}
+                  width="100%"
+                  height="100%"
+                />
+              </div>{" "}
+            </SwiperSlide>
           ))}
-        </Slider>
+        </Swiper>
       </div>
     </Wrapper>
   );

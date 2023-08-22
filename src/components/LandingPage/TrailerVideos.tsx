@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import { Navigation, Pagination, Scrollbar, A11y, Zoom } from "swiper/modules";
 import { PlayIcon } from "../../Icons";
 
 export default class TrailerVideos extends React.Component {
@@ -20,21 +20,49 @@ export default class TrailerVideos extends React.Component {
             <p className="lead">Explore free trailers and search for movies.</p>
           </div>
         </div>
-        <Swiper slidesPerView={3} modules={[A11y]} spaceBetween={20}>
+        <Swiper
+          slidesPerView={3}
+          modules={[A11y, Zoom]}
+          spaceBetween={15}
+          centerInsufficientSlides
+          centeredSlidesBounds
+          centeredSlides
+          style={{ alignItems: "center" }}
+          zoom
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 20,
+            },
+            // when window width is >= 480px
+            480: {
+              slidesPerView: 1,
+              spaceBetween: 30,
+            },
+            // when window width is >= 640px
+            640: {
+              slidesPerView: 3,
+              spaceBetween: 40,
+            },
+          }}
+        >
           {this.movies.map((movie) => (
-            <SwiperSlide>
-              {(sliderProp) => {
-                console.log(sliderProp);
+            <SwiperSlide key={movie.id}>
+              {({ isActive }) => {
+                console.log(isActive);
                 return (
-                  <div className="trailer-card">
+                  <div
+                    className={
+                      isActive ? "active-trailer trailer-card" : "trailer-card"
+                    }
+                  >
                     <div className="head">
                       <PlayIcon />
                     </div>
-                    <div className="content px-2">
-                      <p className="text-muted">
-                        <small>MOVIE {movie}</small>
-                      </p>
-                      <p className="lead">Movie Name</p>
+                    <div className="content px-2 py-2">
+                      <small className="text-muted">MOVIE {movie}</small>
+
+                      <figure className="lead">Movie Name</figure>
                     </div>
                   </div>
                 );
@@ -62,11 +90,17 @@ const Wrapper = styled.div`
   }
   .trailer-card {
     /* margin: 0 10px; */
-    min-width: 350px;
+    @media (max-width: 768px) {
+      min-width: 140px;
+      .head {
+        height: 150px !important;
+      }
+    }
+    min-width: 320px;
     cursor: pointer;
     .head {
       border-radius: 14px;
-      height: 200px;
+      height: 220px;
       background-color: red;
       width: 100%;
       border: 2px solid transparent;
@@ -78,6 +112,16 @@ const Wrapper = styled.div`
       align-items: center;
       justify-content: center;
       color: #fff;
+    }
+  }
+  .swiper-wrapper {
+    align-items: center;
+  }
+  .active-trailer {
+    min-width: 390px;
+    .head {
+      background-color: black !important;
+      height: 260px;
     }
   }
 `;

@@ -101,6 +101,7 @@ const Wrapper = styled.div`
     left: 0;
     top: 0;
     background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: filter(2px);
   }
   .empty-movies {
     text-align: center;

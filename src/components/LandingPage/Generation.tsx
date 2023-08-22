@@ -17,11 +17,11 @@ export default function GenerationMovies({ movies }: { movies: MovieProps[] }) {
       ) : (
         ""
       )} */}
-      <div className="container">
-        <div className="mt-5 py-5">
+      <div className="pb-5">
+        <div className="container mt-5 py-5">
           <h4>New Generation Of Watching Movies.</h4>
         </div>
-        <Swiper slidesPerView={2}>
+        <Swiper slidesPerView={2} spaceBetween={"20px"}>
           {movies.map((movie: MovieProps) => (
             <SwiperSlide>
               <div className="movie-card">
@@ -53,6 +53,7 @@ const Wrapper = styled.div`
     .movie-card {
       min-width: 550px;
       min-height: 300px;
+      border-radius: 10px;
 
       .movie-card-image {
         height: 360px;

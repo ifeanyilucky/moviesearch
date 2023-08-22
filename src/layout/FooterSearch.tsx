@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { SearchIcon } from "../Icons";
 
 export default function FooterSearch() {
   return (
@@ -14,6 +15,9 @@ export default function FooterSearch() {
               </h1>
             </div>
             <div className="footer-search-form">
+              <div className="search-icon">
+                <SearchIcon />
+              </div>
               <input type="text" placeholder="Find a movie" />
             </div>
           </div>
@@ -27,16 +31,23 @@ const Wrapper = styled.div`
   background-color: #000;
   padding: 5rem 0;
   .footer-search-form {
+    @media (max-width: 768px) {
+      width: auto;
+    }
     width: 600px;
     margin: 2.7rem auto;
+    border: 1px solid gray;
+    border-radius: 8px;
+    display: flex;
+    flex-flow: row;
+    align-items: row;
+    padding: 12px 14px;
     input {
       background-color: transparent;
       margin: 0 auto;
-      padding: 12px 14px;
       width: 100%;
       outline: none;
-      border: 1px solid gray;
-      border-radius: 8px;
+      border: none;
       ::placeholder {
         color: #fff;
       }

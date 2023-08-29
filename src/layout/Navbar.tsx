@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import LandingSidebar from "../components/LandingPage/LandingSidebar";
 import { Close, SearchIcon } from "../Icons";
@@ -23,7 +23,9 @@ export default function Navbar() {
           <div className="navigation-bar justify-content-between align-items-baseline">
             <div className="left-nav">
               <div className="logo">
-                <h4>MovieDB</h4>
+                <Link to="/">
+                  <h4>MovieDB</h4>
+                </Link>
               </div>
             </div>
             <div className="right-nav">
@@ -47,11 +49,11 @@ export default function Navbar() {
 }
 
 const Wrapper = styled.div`
-  padding-top: 1.5rem;
   z-index: 99 !important;
-  background-color: transparent;
-
-  left: 5rem;
+  /* padding: 20px auto; */
+  /* background-color: black; */
+  position: fixed;
+  /* left: 5rem; */
   top: 1rem;
   width: 100%;
   .nav-search {
@@ -74,9 +76,14 @@ const Wrapper = styled.div`
   .navigation-bar {
     display: flex;
     flex-flow: row;
+    align-items: center !important;
+    background-color: black;
+    padding: 10px;
+    border-radius: 40px;
     width: 100%;
     .left-nav {
       flex: 30%;
+      padding-left: 20px;
     }
     .right-nav {
       flex: 40%;

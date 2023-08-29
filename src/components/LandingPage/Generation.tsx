@@ -21,7 +21,7 @@ export default function GenerationMovies({ movies }: { movies: MovieProps[] }) {
         <div className="container mt-5 py-5">
           <h4>New Generation Of Watching Movies.</h4>
         </div>
-        <Swiper slidesPerView={2} spaceBetween={"20px"}>
+        <Swiper slidesPerView={3} centeredSlides spaceBetween={"20px"}>
           {movies.map((movie: MovieProps) => (
             <SwiperSlide>
               <div className="movie-card">

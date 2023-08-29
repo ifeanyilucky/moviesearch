@@ -28,5 +28,11 @@ export const fetchMovieImg = (pathName: string) =>
 
 export const searchMovies = (keyword: string) =>
   api.get(
-    `https://api.themoviedb.org/3/search/movie?api_key=${config.apiKey}&language=en-US&page=1&include_adult=false&query=${keyword}`
+    `/search/movie?api_key=${config.apiKey}&language=en-US&page=1&include_adult=false&query=${keyword}`
   );
+
+export const getPeople = () =>
+  api.get(`/person/popular?api_key=${config.apiKey}&language=en-US&page=1`);
+
+export const getUpcomingMovies = () =>
+  api.get(`/movie/upcoming?api_key=${config.apiKey}&language=en-US&page=1`);

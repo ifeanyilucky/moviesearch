@@ -1,12 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar, A11y, Zoom } from "swiper/modules";
+import { A11y, Zoom } from "swiper/modules";
 import { PlayIcon } from "../../Icons";
+import { fetchMovieImg, getUpcomingMovies } from "../../utils/axios";
+import { MovieProps } from "../../types";
 
 export default class TrailerVideos extends React.Component {
   movies = new Array(10).fill(10);
+  state = {
+    movies: [],
+    isLoading: false,
+  };
 
+  async componentDidMount(): Promise<void> {
+    this.setState({ isLoading: true });
+    try {
+      const { data } = await getUpcomingMovies();
+      console.log(data);
+      if (Array.isArray(data.results)) {
+        this.setState({ isLoading: false, movies: data?.results || [] });
+      }
+    } catch (error) {
+      console.log(error);
+      this.setState({ isLoading: false });
+    }
+  }
   render() {
     return (
       <Wrapper>
@@ -15,61 +34,75 @@ export default class TrailerVideos extends React.Component {
             <h1 className="display-1">
               <span style={{ color: "red" }}> Watch</span>
               <br />
-              <span>Latest trailer's video.</span>
+              <span>Upcoming movie trailers.</span>
             </h1>
-            <p className="lead">Explore free trailers and search for movies.</p>
+            <p className="lead">Explore trailers for upcoming movies.</p>
           </div>
         </div>
-        <Swiper
-          slidesPerView={3}
-          modules={[A11y, Zoom]}
-          spaceBetween={15}
-          centerInsufficientSlides
-          centeredSlidesBounds
-          centeredSlides
-          style={{ alignItems: "center" }}
-          zoom
-          breakpoints={{
-            320: {
-              slidesPerView: 1,
-              spaceBetween: 20,
-            },
-            // when window width is >= 480px
-            480: {
-              slidesPerView: 1,
-              spaceBetween: 30,
-            },
-            // when window width is >= 640px
-            640: {
-              slidesPerView: 3,
-              spaceBetween: 40,
-            },
-          }}
-        >
-          {this.movies.map((movie) => (
-            <SwiperSlide key={movie.id}>
-              {({ isActive }) => {
-                console.log(isActive);
-                return (
-                  <div
-                    className={
-                      isActive ? "active-trailer trailer-card" : "trailer-card"
-                    }
-                  >
-                    <div className="head">
-                      <PlayIcon />
+        {this.state.isLoading ? (
+          "loading..."
+        ) : (
+          <Swiper
+            slidesPerView={3}
+            modules={[A11y, Zoom]}
+            spaceBetween={15}
+            centerInsufficientSlides
+            centeredSlidesBounds
+            centeredSlides
+            style={{ alignItems: "center" }}
+            zoom
+            breakpoints={{
+              320: {
+                slidesPerView: 1,
+                spaceBetween: 20,
+              },
+              // when window width is >= 480px
+              480: {
+                slidesPerView: 1,
+                spaceBetween: 30,
+              },
+              // when window width is >= 640px
+              640: {
+                slidesPerView: 3,
+                spaceBetween: 40,
+              },
+            }}
+          >
+            {this.state.movies.map((movie: MovieProps) => (
+              <SwiperSlide key={movie.id}>
+                {({ isActive }) => {
+                  return (
+                    <div
+                      className={
+                        isActive
+                          ? "active-trailer trailer-card"
+                          : "trailer-card"
+                      }
+                    >
+                      <div
+                        className="head"
+                        style={{
+                          backgroundImage: `url(${fetchMovieImg(
+                            movie?.backdrop_path
+                          )})`,
+                        }}
+                      >
+                        <PlayIcon />
+                      </div>
+                      <div className="content px-2 py-2">
+                        <small className="text-muted">
+                          {" "}
+                          {movie.release_date}
+                        </small>
+                        <figure className="lead">{movie.original_title}</figure>
+                      </div>
                     </div>
-                    <div className="content px-2 py-2">
-                      <small className="text-muted">MOVIE {movie}</small>
-
-                      <figure className="lead">Movie Name</figure>
-                    </div>
-                  </div>
-                );
-              }}
-            </SwiperSlide>
-          ))}
-        </Swiper>
+                  );
+                }}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </Wrapper>
     );
   }
@@ -101,7 +134,9 @@ const Wrapper = styled.div`
     .head {
       border-radius: 14px;
       height: 220px;
-      background-color: red;
+      background-size: cover;
+      background-position: center;
+
       width: 100%;
       border: 2px solid transparent;
       transition: 0.29s border ease-in-out;
